@@ -13,19 +13,19 @@ def index():
 @app.route("/about")
 def about():
     # Render and return the 'about.html' template when the "/about" URL is accessed
-    return render_template("about.html")
+    return render_template("about.html", page_title="About")
 
 # Define the route for the "/contact" URL
 @app.route("/contact")
 def contact():
     # Render and return the 'contact.html' template when the "/contact" URL is accessed
-    return render_template("contact.html")
+    return render_template("contact.html", page_title="Contact")
 
 # Define the route for the "/careers" URL
 @app.route("/careers")
 def careers():
     # Render and return the 'careers.html' template when the "/careers" URL is accessed
-    return render_template("careers.html")
+    return render_template("careers.html", page_title="Careers")
 
 # Check if the script is executed directly (i.e., not imported as a module)
 if __name__ == "__main__":
