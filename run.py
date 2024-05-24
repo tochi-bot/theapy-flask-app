@@ -1,8 +1,11 @@
 import os  # Import the os module for interacting with the operating system
 import json  # Import the json module for handling JSON data
-from flask import Flask, render_template, request  # Import Flask class and render_template, request functions from the flask module
+from flask import Flask, render_template, request, flash  # Import Flask class and render_template, request functions from the flask module
+if os.path.exists("env.py"):
+    import env
 
 app = Flask(__name__)  # Create an instance of the Flask class for our web application
+app.secret_key=os.environ.get("SECRET_KEY")
 
 # Define the route for the root URL ("/")
 @app.route("/")
@@ -25,8 +28,7 @@ def about():
 def contact():
     # If the request method is POST, print the form data to the console
     if request.method == "POST":
-        print(request.form.get("name"))
-        print(request.form["email"])
+      flash("Thank You {}, we have received your message".format(request.form.get("name")))
     # Render and return the 'contact.html' template with page title when the "/contact" URL is accessed
     return render_template("contact.html", page_title="Contact")
 
