@@ -35,8 +35,38 @@ def contact():
 # Define the route for the "/careers" URL
 @app.route("/careers")
 def careers():
-    # Render and return the 'careers.html' template with page title when the "/careers" URL is accessed
-    return render_template("careers.html", page_title="Careers")
+    # Example job data
+    jobs = [
+        {"id": 1, "title": "Software Engineer", "description": "Develop and maintain software applications."},
+        {"id": 2, "title": "Data Scientist", "description": "Analyze and interpret complex data to help companies make decisions."},
+    ]
+    # Render and return the 'careers.html' template with page title and job listings when the "/careers" URL is accessed
+    return render_template("careers.html", page_title="Careers", jobs=jobs)
+
+
+# Define the route for job details
+@app.route("/job/<int:job_id>")
+def job_details(job_id):
+    jobs = [
+        {"id": 1, "title": "Software Engineer", "description": "Develop and maintain software applications.", "requirements": "Experience with Python and Flask."},
+        {"id": 2, "title": "Data Scientist", "description": "Analyze and interpret complex data to help companies make decisions.", "requirements": "Experience with data analysis and machine learning."},
+    ]
+    job = next((job for job in jobs if job["id"] == job_id), None)
+    if job is None:
+        flash("Job not found.")
+        return redirect(url_for("careers"))
+    return render_template("job_details.html", job=job)
+
+# Define the route for submitting job applications
+@app.route("/apply", methods=["POST"])
+def apply():
+    name = request.form.get("name")
+    email = request.form.get("email")
+    resume = request.files.get("resume")
+
+    # Here you would save the resume file and store the application details in the database
+    flash(f"Thank you, {name}. Your application has been submitted.")
+    return redirect(url_for("careers"))
 
 # Check if the script is executed directly (i.e., not imported as a module)
 if __name__ == "__main__":
